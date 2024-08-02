@@ -9,9 +9,13 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.ViewCompat
 
-private val LightColorScheme = lightColorScheme(
+private val ColorScheme = lightColorScheme(
     primary = Primary,
     secondary = Background,
     tertiary = Accent,
@@ -26,10 +30,8 @@ private val LightColorScheme = lightColorScheme(
 fun HabitsAppCourseTheme(
     content: @Composable () -> Unit
 ) {
-    val colorScheme = LightColorScheme
-
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = ColorScheme,
         typography = Typography,
         content = content
     )
