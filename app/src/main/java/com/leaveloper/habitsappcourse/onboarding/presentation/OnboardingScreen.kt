@@ -1,13 +1,21 @@
 package com.leaveloper.habitsappcourse.onboarding.presentation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.leaveloper.habitsappcourse.R
 import com.leaveloper.habitsappcourse.onboarding.presentation.components.OnboardingPager
 
 @Composable
 fun OnboardingScreen(
+    viewModel: OnboardingViewModel = hiltViewModel(),
     onFinish: () -> Unit
 ) {
+    LaunchedEffect(key1 = viewModel.hasSeenOnboarding) {
+        if (viewModel.hasSeenOnboarding) {
+            onFinish()
+        }
+    }
     val pages = listOf(
         OnboardingPagerInformation(
             title = "Welcome to Monumental Habits",
@@ -31,5 +39,7 @@ fun OnboardingScreen(
         ),
     )
 
-    OnboardingPager(pages = pages, onFinish = onFinish)
+    OnboardingPager(pages = pages, onFinish = {
+        viewModel.completeOnboarding()
+    })
 }
