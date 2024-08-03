@@ -91,7 +91,7 @@ fun LoginForm(
                     .padding(bottom = 6.dp)
                     .padding(horizontal = 20.dp),
                 errorMessage = state.passwordError,
-                isEnabled = !state.isLoggedIn,
+                isEnabled = !state.isLoading,
                 keyboardOptions = KeyboardOptions(
                     autoCorrect = false,
                     keyboardType = KeyboardType.Password,
