@@ -6,6 +6,8 @@ import com.leaveloper.habitsappcourse.authentication.domain.matcher.EmailMatcher
 import com.leaveloper.habitsappcourse.authentication.domain.repository.AuthenticationRepository
 import com.leaveloper.habitsappcourse.authentication.domain.usecase.LoginUseCases
 import com.leaveloper.habitsappcourse.authentication.domain.usecase.LoginWithEmailUseCase
+import com.leaveloper.habitsappcourse.authentication.domain.usecase.SignupUseCases
+import com.leaveloper.habitsappcourse.authentication.domain.usecase.SignupWithEmailUseCase
 import com.leaveloper.habitsappcourse.authentication.domain.usecase.ValidateEmailUseCase
 import com.leaveloper.habitsappcourse.authentication.domain.usecase.ValidatePasswordUseCase
 import dagger.Module
@@ -34,6 +36,16 @@ object AuthenticationModule {
     fun provideLoginUseCases(repository: AuthenticationRepository, emailMatcher: EmailMatcher): LoginUseCases {
         return LoginUseCases(
             loginWithEmailUseCase = LoginWithEmailUseCase(repository),
+            validateEmailUseCase = ValidateEmailUseCase(emailMatcher),
+            validatePasswordUseCase = ValidatePasswordUseCase()
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideSignupUseCases(repository: AuthenticationRepository, emailMatcher: EmailMatcher): SignupUseCases {
+        return SignupUseCases(
+            signupWithEmailUseCase = SignupWithEmailUseCase(repository),
             validateEmailUseCase = ValidateEmailUseCase(emailMatcher),
             validatePasswordUseCase = ValidatePasswordUseCase()
         )

@@ -40,6 +40,7 @@ import com.leaveloper.habitsappcourse.core.presentation.HabitTextfield
 fun LoginForm(
     state: LoginState,
     onEvent: (LoginEvent) -> Unit,
+    onSignUp: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
@@ -117,7 +118,7 @@ fun LoginForm(
                     textDecoration = TextDecoration.Underline
                 )
             }
-            TextButton(onClick = { onEvent(LoginEvent.Signup) }) {
+            TextButton(onClick = onSignUp) {
                 Text(
                     text = buildAnnotatedString {
                         append("Don't have an account? ")
@@ -138,5 +139,5 @@ fun LoginForm(
 @Preview
 @Composable
 fun LoginFormPreview() {
-    LoginForm(LoginState(), {})
+    LoginForm(LoginState(), {}, {})
 }

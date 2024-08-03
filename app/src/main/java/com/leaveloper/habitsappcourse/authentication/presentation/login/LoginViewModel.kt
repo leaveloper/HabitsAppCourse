@@ -5,12 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.leaveloper.habitsappcourse.authentication.domain.repository.AuthenticationRepository
 import com.leaveloper.habitsappcourse.authentication.domain.usecase.LoginUseCases
-import com.leaveloper.habitsappcourse.authentication.domain.usecase.LoginWithEmailUseCase
 import com.leaveloper.habitsappcourse.authentication.domain.usecase.PasswordResult
-import com.leaveloper.habitsappcourse.authentication.domain.usecase.ValidateEmailUseCase
-import com.leaveloper.habitsappcourse.authentication.domain.usecase.ValidatePasswordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,12 +33,6 @@ class LoginViewModel @Inject constructor(
             is LoginEvent.PasswordChange -> {
                 state = state.copy(
                     password = event.password
-                )
-            }
-
-            LoginEvent.Signup -> {
-                state = state.copy(
-                    signUp = true
                 )
             }
         }

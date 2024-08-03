@@ -17,6 +17,7 @@ fun NavigationHost(
     NavHost(navController = navHostController, startDestination = startDestination.route) {
         composable(NavigationRoute.Onboarding.route) {
             OnboardingScreen(onFinish = {
+                // Eliminar pantalla anterior del stack
                 navHostController.popBackStack()
                 navHostController.navigate(NavigationRoute.Login.route)
             })
@@ -32,7 +33,25 @@ fun NavigationHost(
         }
 
         composable(NavigationRoute.Signup.route) {
-            SignupScreen()
+            SignupScreen(onSignIn = {
+                /*
+                * navHostController.popBackStack()
+                *
+                * Hacer esto solo elimina la pantalla de SignUp.
+                * Sin embargo, no elimina la de Login.
+                * Esto provoca que al ir hacia atras estando en Home
+                * vaya a la pantalla de Login en lugar de salir de la app
+                * */
+
+                navHostController.navigate(NavigationRoute.Home.route) {
+                    // Eliminar todos las pantallas hasta la raíz
+                    popUpTo(navHostController.graph.id) {
+                        inclusive = true
+                    }
+                }
+            }, onLogin = {
+                navHostController.popBackStack()
+            })
         }
 
         composable(NavigationRoute.Home.route) {

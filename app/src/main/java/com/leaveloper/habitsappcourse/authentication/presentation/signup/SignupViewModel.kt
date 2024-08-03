@@ -4,11 +4,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.leaveloper.habitsappcourse.authentication.domain.usecase.PasswordResult
+import com.leaveloper.habitsappcourse.authentication.domain.usecase.SignupUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignupViewModel @Inject constructor() : ViewModel() {
+class SignupViewModel @Inject constructor(
+    private val signupUseCases: SignupUseCases
+) : ViewModel() {
     var state by mutableStateOf(SignupState())
         private set
 
@@ -21,21 +27,58 @@ class SignupViewModel @Inject constructor() : ViewModel() {
             }
             is SignupEvent.PasswordChange -> {
                 state = state.copy(
-                    email = event.password
+                    password = event.password
                 )
             }
-            SignupEvent.SignIn -> {
+            SignupEvent.LogIn -> {
                 state = state.copy(
-                    signIn = true
+                    logIn = true
                 )
             }
-            SignupEvent.Signup -> {
+            SignupEvent.SignUp -> {
                 signUp()
             }
         }
     }
 
     private fun signUp() {
-        //
+        state = state.copy(
+            emailError = null,
+            passwordError = null
+        )
+
+        if (!signupUseCases.validateEmailUseCase(state.email)) {
+            state = state.copy(
+                emailError = "El email no es válido"
+            )
+        }
+
+        val passwordResult = signupUseCases.validatePasswordUseCase(state.password)
+        if (passwordResult is PasswordResult.Invalid) {
+            state = state.copy(
+                passwordError = passwordResult.errorMessage
+            )
+        }
+
+        if (state.emailError == null && state.passwordError == null) {
+            state = state.copy(
+                isLoading = true
+            )
+
+            viewModelScope.launch {
+                signupUseCases.signupWithEmailUseCase(state.email, state.password).onSuccess {
+                    state = state.copy(
+                        isSignedIn = true
+                    )
+                }.onFailure {
+                    state = state.copy(
+                        emailError = it.message
+                    )
+                }
+                state = state.copy(
+                    isLoading = false
+                )
+            }
+        }
     }
 }

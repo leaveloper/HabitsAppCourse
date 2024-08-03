@@ -83,11 +83,11 @@ fun SignupForm(
             ),
             keyboardActions = KeyboardActions(onAny = {
                 focusManager.clearFocus()
-                onEvent(SignupEvent.Signup)
+                onEvent(SignupEvent.SignUp)
             }),
             backgroundColor = Color.White
         )
-        
+
         Spacer(modifier = Modifier.height(12.dp))
 
         HabitButton(
@@ -96,10 +96,10 @@ fun SignupForm(
                 .padding(horizontal = 20.dp),
             isEnabled = !state.isLoading
         ) {
-            onEvent(SignupEvent.Signup)
+            onEvent(SignupEvent.SignUp)
         }
 
-        TextButton(onClick = { onEvent(SignupEvent.SignIn) }) {
+        TextButton(onClick = { onEvent(SignupEvent.LogIn) }) {
             Text(
                 text = buildAnnotatedString {
                     append("Already have an account? ")
