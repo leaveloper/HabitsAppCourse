@@ -4,6 +4,7 @@ import com.leaveloper.habitsappcourse.authentication.data.matcher.EmailMatcherIm
 import com.leaveloper.habitsappcourse.authentication.data.repository.AuthenticationRepositoryImpl
 import com.leaveloper.habitsappcourse.authentication.domain.matcher.EmailMatcher
 import com.leaveloper.habitsappcourse.authentication.domain.repository.AuthenticationRepository
+import com.leaveloper.habitsappcourse.authentication.domain.usecase.GetUserIdUseCase
 import com.leaveloper.habitsappcourse.authentication.domain.usecase.LoginUseCases
 import com.leaveloper.habitsappcourse.authentication.domain.usecase.LoginWithEmailUseCase
 import com.leaveloper.habitsappcourse.authentication.domain.usecase.SignupUseCases
@@ -49,5 +50,11 @@ object AuthenticationModule {
             validateEmailUseCase = ValidateEmailUseCase(emailMatcher),
             validatePasswordUseCase = ValidatePasswordUseCase()
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetUserIdUseCase(repository: AuthenticationRepository) : GetUserIdUseCase {
+        return GetUserIdUseCase(repository)
     }
 }
