@@ -56,8 +56,8 @@ android {
 dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
-    implementation(libs.core)
-    implementation(libs.clock)
+    implementation(libs.sheets.compose.dialogs.core)
+    implementation(libs.sheets.compose.dialogs.clock)
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)

@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 fun HabitCheckbox(
     isChecked: Boolean,
     modifier: Modifier = Modifier,
-    onCheckecChanged: () -> Unit
+    onCheckedChange: () -> Unit
 ) {
     val backgroundColor =
         if (isChecked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background
@@ -31,7 +31,7 @@ fun HabitCheckbox(
             .clip(RoundedCornerShape(12.dp))
             .background(color = backgroundColor)
             .clickable {
-                onCheckecChanged()
+                onCheckedChange()
             },
         contentAlignment = Alignment.Center
     ) {
