@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -18,12 +19,31 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.leaveloper.habitsappcourse.R
 import com.leaveloper.habitsappcourse.authentication.presentation.login.components.LoginForm
 import com.leaveloper.habitsappcourse.core.presentation.HabitTitle
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    onLogin: () -> Unit,
+    onSignUp: () -> Unit,
+    viewModel: LoginViewModel = hiltViewModel()
+) {
+    val state = viewModel.state
+
+    LaunchedEffect(state.isLoggedIn) {
+        if (state.isLoggedIn) {
+            onLogin()
+        }
+    }
+
+    LaunchedEffect(state.signUp) {
+        if (state.signUp) {
+            onSignUp()
+        }
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.loginbackground),
@@ -36,25 +56,38 @@ fun LoginScreen() {
                     scaleY = 1.27f
                 }
         )
-        Spacer(modifier = Modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        Color.Transparent, // 33% transparente
-                        MaterialTheme.colorScheme.background, // 33% color
-                        MaterialTheme.colorScheme.background // 33% color
+        Spacer(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Transparent, // 33% transparente
+                            MaterialTheme.colorScheme.background, // 33% color
+                            MaterialTheme.colorScheme.background // 33% color
+                        )
                     )
                 )
-            ))
+        )
     }
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
         Spacer(modifier = Modifier)
         Spacer(modifier = Modifier)
-        Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             HabitTitle(title = "Welcome to")
             HabitTitle(title = "monumental habits")
         }
-        LoginForm()
+        LoginForm(state, viewModel::onEvent)
+
+        /*
+        * viewModel::onEvent
+        * ==
+        * {
+        *   viewModel.onEvent(it)
+        * }
+        * */
     }
 }
