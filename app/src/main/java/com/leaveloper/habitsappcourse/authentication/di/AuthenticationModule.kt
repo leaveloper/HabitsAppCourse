@@ -7,6 +7,7 @@ import com.leaveloper.habitsappcourse.authentication.domain.repository.Authentic
 import com.leaveloper.habitsappcourse.authentication.domain.usecase.GetUserIdUseCase
 import com.leaveloper.habitsappcourse.authentication.domain.usecase.LoginUseCases
 import com.leaveloper.habitsappcourse.authentication.domain.usecase.LoginWithEmailUseCase
+import com.leaveloper.habitsappcourse.authentication.domain.usecase.LogoutUseCase
 import com.leaveloper.habitsappcourse.authentication.domain.usecase.SignupUseCases
 import com.leaveloper.habitsappcourse.authentication.domain.usecase.SignupWithEmailUseCase
 import com.leaveloper.habitsappcourse.authentication.domain.usecase.ValidateEmailUseCase
@@ -56,5 +57,11 @@ object AuthenticationModule {
     @Singleton
     fun provideGetUserIdUseCase(repository: AuthenticationRepository) : GetUserIdUseCase {
         return GetUserIdUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLogoutUseCase(repository: AuthenticationRepository) : LogoutUseCase {
+        return LogoutUseCase(repository)
     }
 }

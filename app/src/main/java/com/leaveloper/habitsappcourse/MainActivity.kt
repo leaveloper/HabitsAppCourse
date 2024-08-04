@@ -36,14 +36,17 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavigationHost(
                         navHostController = navController,
-                        startDestination = getStartDestination()
+                        startDestination = getStartDestination(),
+                        logout = {
+                            viewModel.logout()
+                        }
                     )
                 }
             }
         }
     }
 
-    private fun getStartDestination() : NavigationRoute {
+    private fun getStartDestination(): NavigationRoute {
         if (viewModel.isLoggedIn) {
             return NavigationRoute.Home
         }

@@ -10,5 +10,6 @@ import javax.inject.Inject
 class HabitsAppCourse : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
-    override val workManagerConfiguration = Configuration.Builder().setWorkerFactory(workerFactory).build()
+    override fun getWorkManagerConfiguration() =
+        Configuration.Builder().setWorkerFactory(workerFactory).build()
 }

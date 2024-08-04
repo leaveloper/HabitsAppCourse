@@ -11,11 +11,13 @@ import com.leaveloper.habitsappcourse.authentication.presentation.signup.SignupS
 import com.leaveloper.habitsappcourse.home.presentation.detail.DetailScreen
 import com.leaveloper.habitsappcourse.home.presentation.home.HomeScreen
 import com.leaveloper.habitsappcourse.onboarding.presentation.OnboardingScreen
+import com.leaveloper.habitsappcourse.settings.presentation.SettingsScreen
 
 @Composable
 fun NavigationHost(
     navHostController: NavHostController,
-    startDestination: NavigationRoute
+    startDestination: NavigationRoute,
+    logout: () -> Unit
 ) {
     NavHost(navController = navHostController, startDestination = startDestination.route) {
         composable(NavigationRoute.Onboarding.route) {
@@ -77,6 +79,22 @@ fun NavigationHost(
             DetailScreen(
                 onBack = { navHostController.popBackStack() },
                 onSave = { navHostController.popBackStack() })
+        }
+
+        composable(NavigationRoute.Settings.route) {
+            SettingsScreen(
+                onBack = {
+                    navHostController.popBackStack()
+                },
+                onLogout = {
+                    logout()
+                    navHostController.navigate(NavigationRoute.Login.route) {
+                        popUpTo(navHostController.graph.id) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
     }
 }
