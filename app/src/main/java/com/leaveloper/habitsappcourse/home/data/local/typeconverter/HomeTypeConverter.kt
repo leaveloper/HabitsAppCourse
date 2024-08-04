@@ -3,13 +3,9 @@ package com.leaveloper.habitsappcourse.home.data.local.typeconverter
 import android.util.Log
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-import com.squareup.moshi.Moshi
-import java.lang.NumberFormatException
 
 @ProvidedTypeConverter
-class HomeTypeConverter(
-    private val moshi: Moshi
-) {
+class HomeTypeConverter() {
     @TypeConverter
     fun fromFrequency(days: List<Int>) : String {
         return joinIntIntoString(days) ?: ""

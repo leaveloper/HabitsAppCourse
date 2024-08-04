@@ -2,11 +2,13 @@ package com.leaveloper.habitsappcourse.home.di
 
 import android.content.Context
 import androidx.room.Room
+import com.leaveloper.habitsappcourse.home.data.alarm.AlarmHandlerImpl
 import com.leaveloper.habitsappcourse.home.data.local.HomeDao
 import com.leaveloper.habitsappcourse.home.data.local.HomeDatabase
 import com.leaveloper.habitsappcourse.home.data.local.typeconverter.HomeTypeConverter
 import com.leaveloper.habitsappcourse.home.data.remote.HomeApi
 import com.leaveloper.habitsappcourse.home.data.repository.HomeRepositoryImpl
+import com.leaveloper.habitsappcourse.home.domain.alarm.AlarmHandler
 import com.leaveloper.habitsappcourse.home.domain.detail.usecase.DetailUseCases
 import com.leaveloper.habitsappcourse.home.domain.detail.usecase.GetHabitByIdUseCase
 import com.leaveloper.habitsappcourse.home.domain.detail.usecase.InsertHabitUseCase
@@ -50,20 +52,18 @@ object HomeModule {
 
     @Provides
     @Singleton
-    fun provideHabitDao(@ApplicationContext context: Context, moshi: Moshi): HomeDao {
+    fun provideHabitDao(@ApplicationContext context: Context): HomeDao {
         return Room.databaseBuilder(
             context,
             HomeDatabase::class.java,
             "habits_db"
-        ).addTypeConverter(HomeTypeConverter(moshi)).build().dao
+        ).addTypeConverter(HomeTypeConverter()).build().dao
     }
 
     @Provides
     @Singleton
-    fun provideMoshi(): Moshi {
-        return Moshi
-            .Builder()
-            .build()
+    fun provideAlarmHandler(@ApplicationContext context: Context): AlarmHandler {
+        return AlarmHandlerImpl(context)
     }
 
     @Provides
@@ -96,7 +96,7 @@ object HomeModule {
 
     @Provides
     @Singleton
-    fun provideHomeRepository(dao: HomeDao, api: HomeApi): HomeRepository {
-        return HomeRepositoryImpl(dao, api)
+    fun provideHomeRepository(dao: HomeDao, api: HomeApi, alarmHandler: AlarmHandler): HomeRepository {
+        return HomeRepositoryImpl(dao, api, alarmHandler)
     }
 }
