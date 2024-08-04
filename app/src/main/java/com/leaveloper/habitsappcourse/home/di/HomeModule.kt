@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.leaveloper.habitsappcourse.home.data.local.HomeDao
 import com.leaveloper.habitsappcourse.home.data.local.HomeDatabase
 import com.leaveloper.habitsappcourse.home.data.local.typeconverter.HomeTypeConverter
+import com.leaveloper.habitsappcourse.home.data.remote.HomeApi
 import com.leaveloper.habitsappcourse.home.data.repository.HomeRepositoryImpl
 import com.leaveloper.habitsappcourse.home.domain.detail.usecase.DetailUseCases
 import com.leaveloper.habitsappcourse.home.domain.detail.usecase.GetHabitByIdUseCase
@@ -19,6 +20,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -26,7 +32,7 @@ import javax.inject.Singleton
 object HomeModule {
     @Provides
     @Singleton
-    fun provideHomeUseCases(repository: HomeRepository) : HomeUseCases {
+    fun provideHomeUseCases(repository: HomeRepository): HomeUseCases {
         return HomeUseCases(
             getAllHabitsForDateUseCase = GetAllHabitsForDateUseCase(repository),
             completeHabitUseCase = CompleteHabitUseCase(repository)
@@ -35,7 +41,7 @@ object HomeModule {
 
     @Provides
     @Singleton
-    fun provideDetailUseCases(repository: HomeRepository) : DetailUseCases {
+    fun provideDetailUseCases(repository: HomeRepository): DetailUseCases {
         return DetailUseCases(
             getHabitByIdUseCase = GetHabitByIdUseCase(repository),
             insertHabitUseCase = InsertHabitUseCase(repository)
@@ -55,12 +61,42 @@ object HomeModule {
     @Provides
     @Singleton
     fun provideMoshi(): Moshi {
-        return Moshi.Builder().build()
+        return Moshi
+            .Builder()
+            .build()
     }
 
     @Provides
     @Singleton
-    fun provideHomeRepository(dao: HomeDao) : HomeRepository {
-        return HomeRepositoryImpl(dao)
+    fun provideOkHttpClient(): OkHttpClient {
+        // Permite ver los logs en Logcat
+        return OkHttpClient
+            .Builder()
+            .addInterceptor(
+                HttpLoggingInterceptor()
+                    .apply {
+                        level = HttpLoggingInterceptor.Level.BODY
+                    }
+            ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideHomeApi(client: OkHttpClient): HomeApi {
+        return Retrofit
+            .Builder()
+            .baseUrl(HomeApi.BASE_URL)
+            .client(client)
+            .addConverterFactory(
+                MoshiConverterFactory.create()
+            )
+            .build()
+            .create(HomeApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideHomeRepository(dao: HomeDao, api: HomeApi): HomeRepository {
+        return HomeRepositoryImpl(dao, api)
     }
 }
