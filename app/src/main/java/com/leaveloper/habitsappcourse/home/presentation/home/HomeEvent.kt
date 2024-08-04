@@ -1,6 +1,6 @@
 package com.leaveloper.habitsappcourse.home.presentation.home
 
-import com.leaveloper.habitsappcourse.home.presentation.home.domain.models.Habit
+import com.leaveloper.habitsappcourse.home.domain.models.Habit
 import java.time.ZonedDateTime
 
 sealed interface HomeEvent {

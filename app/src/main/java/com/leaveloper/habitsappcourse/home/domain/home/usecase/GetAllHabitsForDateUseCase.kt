@@ -1,7 +1,7 @@
-package com.leaveloper.habitsappcourse.home.presentation.home.domain.home.usecase
+package com.leaveloper.habitsappcourse.home.domain.home.usecase
 
-import com.leaveloper.habitsappcourse.home.presentation.home.domain.models.Habit
-import com.leaveloper.habitsappcourse.home.presentation.home.domain.repository.HomeRepository
+import com.leaveloper.habitsappcourse.home.domain.models.Habit
+import com.leaveloper.habitsappcourse.home.domain.repository.HomeRepository
 import kotlinx.coroutines.flow.Flow
 import java.time.ZonedDateTime
 

@@ -1,10 +1,11 @@
 package com.leaveloper.habitsappcourse.navigation
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.leaveloper.habitsappcourse.authentication.presentation.login.LoginScreen
 import com.leaveloper.habitsappcourse.authentication.presentation.signup.SignupScreen
 import com.leaveloper.habitsappcourse.home.presentation.detail.DetailScreen
@@ -61,10 +62,18 @@ fun NavigationHost(
                 navHostController.navigate(NavigationRoute.Detail.route)
             }, onSettings = {
                 navHostController.navigate(NavigationRoute.Settings.route)
+            }, onEditHabit = {
+                navHostController.navigate(NavigationRoute.Detail.route + "?habitId=$it")
             })
         }
 
-        composable(NavigationRoute.Detail.route) {
+        composable(NavigationRoute.Detail.route + "?habitId={habitId}", arguments = listOf(
+            navArgument("habitId") {
+                type = NavType.StringType
+                nullable = true
+                defaultValue = null
+            }
+        )) {
             DetailScreen(
                 onBack = { navHostController.popBackStack() },
                 onSave = { navHostController.popBackStack() })

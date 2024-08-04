@@ -1,4 +1,4 @@
-package com.leaveloper.habitsappcourse.home.presentation.home.domain.models
+package com.leaveloper.habitsappcourse.home.domain.models
 
 import java.time.DayOfWeek
 import java.time.LocalDate

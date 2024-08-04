@@ -1,7 +1,7 @@
-package com.leaveloper.habitsappcourse.home.presentation.home.domain.home.usecase
+package com.leaveloper.habitsappcourse.home.domain.home.usecase
 
-import com.leaveloper.habitsappcourse.home.presentation.home.domain.models.Habit
-import com.leaveloper.habitsappcourse.home.presentation.home.domain.repository.HomeRepository
+import com.leaveloper.habitsappcourse.home.domain.models.Habit
+import com.leaveloper.habitsappcourse.home.domain.repository.HomeRepository
 import java.time.ZonedDateTime
 
 class CompleteHabitUseCase(private val repository: HomeRepository) {

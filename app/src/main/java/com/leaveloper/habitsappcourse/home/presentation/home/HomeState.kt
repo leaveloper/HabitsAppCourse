@@ -1,6 +1,6 @@
 package com.leaveloper.habitsappcourse.home.presentation.home
 
-import com.leaveloper.habitsappcourse.home.presentation.home.domain.models.Habit
+import com.leaveloper.habitsappcourse.home.domain.models.Habit
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZonedDateTime
