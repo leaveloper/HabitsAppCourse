@@ -5,6 +5,7 @@ import com.leaveloper.habitsappcourse.home.data.extension.toTimestamp
 import com.leaveloper.habitsappcourse.home.data.extension.toZonedDateTime
 import com.leaveloper.habitsappcourse.home.data.extension.toZonedDateTime
 import com.leaveloper.habitsappcourse.home.data.local.entity.HabitEntity
+import com.leaveloper.habitsappcourse.home.data.local.entity.HabitSyncEntity
 import com.leaveloper.habitsappcourse.home.data.remote.dto.HabitDto
 import com.leaveloper.habitsappcourse.home.data.remote.dto.HabitResponse
 import com.leaveloper.habitsappcourse.home.domain.models.Habit
@@ -67,4 +68,8 @@ fun HabitResponse.toDomain(): List<Habit> {
             startDate = dto.startDate.toZonedDateTime()
         )
     }
+}
+
+fun Habit.toSyncEntity() : HabitSyncEntity {
+    return HabitSyncEntity(id)
 }

@@ -2,6 +2,7 @@ package com.leaveloper.habitsappcourse.home.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.work.WorkManager
 import com.leaveloper.habitsappcourse.home.data.alarm.AlarmHandlerImpl
 import com.leaveloper.habitsappcourse.home.data.local.HomeDao
 import com.leaveloper.habitsappcourse.home.data.local.HomeDatabase
@@ -15,6 +16,7 @@ import com.leaveloper.habitsappcourse.home.domain.detail.usecase.InsertHabitUseC
 import com.leaveloper.habitsappcourse.home.domain.home.usecase.CompleteHabitUseCase
 import com.leaveloper.habitsappcourse.home.domain.home.usecase.GetAllHabitsForDateUseCase
 import com.leaveloper.habitsappcourse.home.domain.home.usecase.HomeUseCases
+import com.leaveloper.habitsappcourse.home.domain.home.usecase.SyncHabitUseCase
 import com.leaveloper.habitsappcourse.home.domain.repository.HomeRepository
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -37,7 +39,8 @@ object HomeModule {
     fun provideHomeUseCases(repository: HomeRepository): HomeUseCases {
         return HomeUseCases(
             getAllHabitsForDateUseCase = GetAllHabitsForDateUseCase(repository),
-            completeHabitUseCase = CompleteHabitUseCase(repository)
+            completeHabitUseCase = CompleteHabitUseCase(repository),
+            syncHabitUseCase = SyncHabitUseCase(repository)
         )
     }
 
@@ -96,7 +99,13 @@ object HomeModule {
 
     @Provides
     @Singleton
-    fun provideHomeRepository(dao: HomeDao, api: HomeApi, alarmHandler: AlarmHandler): HomeRepository {
-        return HomeRepositoryImpl(dao, api, alarmHandler)
+    fun provideWorkManager(@ApplicationContext context: Context) : WorkManager {
+        return WorkManager.getInstance(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideHomeRepository(dao: HomeDao, api: HomeApi, alarmHandler: AlarmHandler, workManager: WorkManager): HomeRepository {
+        return HomeRepositoryImpl(dao, api, alarmHandler, workManager)
     }
 }
