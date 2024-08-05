@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leaveloper.habitsappcourse.home.domain.home.usecase.HomeUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,6 +18,8 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
     var state by mutableStateOf(HomeState())
         private set
+
+    private var currentDayJob: Job? = null
 
     init {
         getHabits()
@@ -42,7 +45,12 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getHabits() {
-        viewModelScope.launch {
+        currentDayJob?.cancel()
+        // Esta corrutina no se destruye ya que es "collectLatest", por lo tanto
+        // cada vez que se modifique un hábito a través de "onEvent" se crea una nueva.
+        // De esta forma, siempre se cancela la corrutina anterior (de existir una)
+
+        currentDayJob = viewModelScope.launch {
             homeUseCases.getAllHabitsForDateUseCase(state.selectedDate).collectLatest {
                 state = state.copy(
                     habits = it
