@@ -12,6 +12,9 @@ import com.leaveloper.habitsappcourse.home.data.remote.HomeApi
 import com.leaveloper.habitsappcourse.home.data.remote.util.resultOf
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 
@@ -36,12 +39,25 @@ class HabitSyncWorker @AssistedInject constructor(
 
             supervisorScope {
                 val jobs = items.map { item ->
+                    async {
+                        sync(item)
+                    }
+
+                    /*
+                    Si se utiliza launch y lanza una excepción,
+                    esta se propaga y crashea toda la aplicación
+
                     launch {
                         sync(item)
                     }
+                    */
                 }
 
-                jobs.forEach { it.join() }
+                /*
+                Si se utiliza launch, se puede utilizar
+                jobs.awaitAll()
+                */
+                jobs.awaitAll()
             }
 
             Result.success()
