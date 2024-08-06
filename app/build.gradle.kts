@@ -17,7 +17,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.leaveloper.habitsappcourse.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -54,6 +54,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.test.rules)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     implementation(libs.sheets.compose.dialogs.core)
@@ -105,19 +106,19 @@ dependencies {
     implementation(libs.work.runtime.ktx)
     implementation(libs.hilt.work)
 
-    ksp(libs.hilt.compiler)
-
     // Testing
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ui.test.junit4)
-    ksp(libs.hilt.android.compiler)
+    kspAndroidTest(libs.hilt.android.compiler)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
     testImplementation(libs.turbine)
     androidTestImplementation(libs.hilt.android.testing)
     testImplementation(libs.mockk)
     androidTestImplementation(libs.work.testing)
+    androidTestImplementation(libs.test.rules)
+    androidTestImplementation(libs.core.ktx)
 }

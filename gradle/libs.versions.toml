@@ -26,6 +26,7 @@ playServicesAuth = "21.2.0"
 retrofit = "2.9.0"
 room = "2.6.1"
 sheetsComposeDialogs = "1.1.0"
+testRules = "1.6.1"
 turbine = "1.1.0"
 workmanager = "2.8.0"
 minSdk = "24"
@@ -67,6 +68,7 @@ room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 sheets-compose-dialogs-clock = { module = "com.maxkeppeler.sheets-compose-dialogs:clock", version.ref = "sheetsComposeDialogs" }
 sheets-compose-dialogs-core = { module = "com.maxkeppeler.sheets-compose-dialogs:core", version.ref = "sheetsComposeDialogs" }
+test-rules = { module = "androidx.test:rules", version.ref = "testRules" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }

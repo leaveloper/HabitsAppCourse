@@ -99,7 +99,7 @@ fun DetailScreen(
             HabitTextfield(
                 value = state.habitName,
                 onValueChange = { viewModel.onEvent(DetailEvent.NameChange(it)) },
-                placeholder = "New habit",
+                placeholder = "Your habit",
                 contentDescription = "Enter habit name",
                 modifier = Modifier.fillMaxWidth(),
                 backgroundColor = Color.White,
