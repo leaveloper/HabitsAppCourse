@@ -40,10 +40,14 @@ android {
 
 dependencies {
 
-    implementation(libs.activity.compose)
-    implementation(libs.ui)
-    implementation(libs.ui.tooling.preview)
-    implementation(libs.material3)
+    // Todo módulo que implemente core_presentation, tiene acceso a
+    // todas las dependencias que estén implementadas con "api"
+    api(libs.core.ktx)
+    api(libs.lifecycle.runtime.ktx)
+    api(libs.activity.compose)
+    api(libs.ui)
+    api(libs.ui.tooling.preview)
+    api(libs.material3)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.espresso.core)

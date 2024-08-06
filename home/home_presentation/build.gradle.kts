@@ -57,10 +57,6 @@ dependencies {
     implementation(libs.sheets.compose.dialogs.core)
     implementation(libs.sheets.compose.dialogs.clock)
 
-    implementation(libs.activity.compose)
-    implementation(libs.ui)
-    implementation(libs.ui.tooling.preview)
-    implementation(libs.material3)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.espresso.core)

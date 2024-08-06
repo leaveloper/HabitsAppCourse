@@ -77,13 +77,6 @@ dependencies {
     implementation(libs.sheets.compose.dialogs.core)
     implementation(libs.sheets.compose.dialogs.clock)
 
-    implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.activity.compose)
-    implementation(libs.ui)
-    implementation(libs.ui.tooling.preview)
-    implementation(libs.material3)
-
     // Compose Navigation
     implementation(libs.navigation.compose)
 
