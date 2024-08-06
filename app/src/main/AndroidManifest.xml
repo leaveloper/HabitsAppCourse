@@ -28,8 +28,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".home.data.alarm.AlarmReceiver" />
-        <receiver android:name=".home.data.alarm.startup.BootReceiver"
+        <receiver android:name="com.leaveloper.home_data.alarm.AlarmReceiver" />
+        <receiver android:name="com.leaveloper.home_data.alarm.startup.BootReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

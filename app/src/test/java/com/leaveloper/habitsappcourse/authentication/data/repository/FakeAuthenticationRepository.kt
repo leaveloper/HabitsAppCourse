@@ -1,8 +1,9 @@
 package com.leaveloper.habitsappcourse.authentication.data.repository
 
-import com.leaveloper.habitsappcourse.authentication.domain.repository.AuthenticationRepository
+import com.leaveloper.authentication_domain.repository.AuthenticationRepository
 
-class FakeAuthenticationRepository : AuthenticationRepository {
+class FakeAuthenticationRepository :
+    com.leaveloper.authentication_domain.repository.AuthenticationRepository {
     var fakeError = false
     var fakeErrorMessage = "There was a server error!"
 

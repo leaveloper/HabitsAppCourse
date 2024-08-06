@@ -54,6 +54,23 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:core_presentation"))
+    implementation(project(":core:core_data"))
+
+    implementation(project(":settings:settings_presentation"))
+
+    implementation(project(":onboarding:onboarding_data"))
+    implementation(project(":onboarding:onboarding_domain"))
+    implementation(project(":onboarding:onboarding_presentation"))
+
+    implementation(project(":authentication:authentication_data"))
+    implementation(project(":authentication:authentication_domain"))
+    implementation(project(":authentication:authentication_presentation"))
+
+    implementation(project(":home:home_data"))
+    implementation(project(":home:home_domain"))
+    implementation(project(":home:home_presentation"))
+
     implementation(libs.test.rules)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
@@ -84,23 +101,6 @@ dependencies {
 
     // Coil
     implementation(libs.coil.compose)
-
-    // Pager
-    implementation(libs.accompanist.pager)
-    implementation(libs.accompanist.pager.indicators)
-
-    // Permissions
-    implementation(libs.accompanist.permissions)
-
-    // Room
-    implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
-    implementation(libs.room.runtime)
-
-    // Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.converter.moshi)
-    implementation(libs.logging.interceptor)
 
     // WorkManager
     implementation(libs.work.runtime.ktx)

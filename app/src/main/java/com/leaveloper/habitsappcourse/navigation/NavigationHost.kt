@@ -6,12 +6,11 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.leaveloper.habitsappcourse.authentication.presentation.login.LoginScreen
-import com.leaveloper.habitsappcourse.authentication.presentation.signup.SignupScreen
-import com.leaveloper.habitsappcourse.home.presentation.detail.DetailScreen
-import com.leaveloper.habitsappcourse.home.presentation.home.HomeScreen
-import com.leaveloper.habitsappcourse.onboarding.presentation.OnboardingScreen
-import com.leaveloper.habitsappcourse.settings.presentation.SettingsScreen
+import com.leaveloper.authentication_presentation.login.LoginScreen
+import com.leaveloper.authentication_presentation.signup.SignupScreen
+import com.leaveloper.home_presentation.detail.DetailScreen
+import com.leaveloper.home_presentation.home.HomeScreen
+import com.leaveloper.onboarding_presentation.OnboardingScreen
 
 @Composable
 fun NavigationHost(
@@ -21,7 +20,7 @@ fun NavigationHost(
 ) {
     NavHost(navController = navHostController, startDestination = startDestination.route) {
         composable(NavigationRoute.Onboarding.route) {
-            OnboardingScreen(onFinish = {
+            com.leaveloper.onboarding_presentation.OnboardingScreen(onFinish = {
                 // Eliminar pantalla anterior del stack
                 navHostController.popBackStack()
                 navHostController.navigate(NavigationRoute.Login.route)
@@ -29,7 +28,7 @@ fun NavigationHost(
         }
 
         composable(NavigationRoute.Login.route) {
-            LoginScreen(onLogin = {
+            com.leaveloper.authentication_presentation.login.LoginScreen(onLogin = {
                 navHostController.popBackStack()
                 navHostController.navigate(NavigationRoute.Home.route)
             }, onSignUp = {
@@ -38,7 +37,7 @@ fun NavigationHost(
         }
 
         composable(NavigationRoute.Signup.route) {
-            SignupScreen(onSignIn = {
+            com.leaveloper.authentication_presentation.signup.SignupScreen(onSignIn = {
                 /*
                 * navHostController.popBackStack()
                 *
@@ -60,7 +59,7 @@ fun NavigationHost(
         }
 
         composable(NavigationRoute.Home.route) {
-            HomeScreen(onNewHabit = {
+            com.leaveloper.home_presentation.home.HomeScreen(onNewHabit = {
                 navHostController.navigate(NavigationRoute.Detail.route)
             }, onSettings = {
                 navHostController.navigate(NavigationRoute.Settings.route)
@@ -76,13 +75,13 @@ fun NavigationHost(
                 defaultValue = null
             }
         )) {
-            DetailScreen(
+            com.leaveloper.home_presentation.detail.DetailScreen(
                 onBack = { navHostController.popBackStack() },
                 onSave = { navHostController.popBackStack() })
         }
 
         composable(NavigationRoute.Settings.route) {
-            SettingsScreen(
+            com.leaveloper.settings_presentation.SettingsScreen(
                 onBack = {
                     navHostController.popBackStack()
                 },

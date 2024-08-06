@@ -24,17 +24,17 @@ import androidx.work.testing.SynchronousExecutor
 import androidx.work.testing.WorkManagerTestInitHelper
 import com.leaveloper.habitsappcourse.MainActivity
 import com.leaveloper.habitsappcourse.home.data.repository.FakeHomeRepository
-import com.leaveloper.habitsappcourse.home.domain.detail.usecase.DetailUseCases
-import com.leaveloper.habitsappcourse.home.domain.detail.usecase.GetHabitByIdUseCase
-import com.leaveloper.habitsappcourse.home.domain.detail.usecase.InsertHabitUseCase
-import com.leaveloper.habitsappcourse.home.domain.home.usecase.CompleteHabitUseCase
-import com.leaveloper.habitsappcourse.home.domain.home.usecase.GetAllHabitsForDateUseCase
-import com.leaveloper.habitsappcourse.home.domain.home.usecase.HomeUseCases
-import com.leaveloper.habitsappcourse.home.domain.home.usecase.SyncHabitUseCase
-import com.leaveloper.habitsappcourse.home.presentation.detail.DetailScreen
-import com.leaveloper.habitsappcourse.home.presentation.detail.DetailViewModel
-import com.leaveloper.habitsappcourse.home.presentation.home.HomeScreen
-import com.leaveloper.habitsappcourse.home.presentation.home.HomeViewModel
+import com.leaveloper.home_domain.detail.usecase.DetailUseCases
+import com.leaveloper.home_domain.detail.usecase.GetHabitByIdUseCase
+import com.leaveloper.home_domain.detail.usecase.InsertHabitUseCase
+import com.leaveloper.home_domain.home.usecase.CompleteHabitUseCase
+import com.leaveloper.home_domain.home.usecase.GetAllHabitsForDateUseCase
+import com.leaveloper.home_domain.home.usecase.HomeUseCases
+import com.leaveloper.home_domain.home.usecase.SyncHabitUseCase
+import com.leaveloper.home_presentation.detail.DetailScreen
+import com.leaveloper.home_presentation.detail.DetailViewModel
+import com.leaveloper.home_presentation.home.HomeScreen
+import com.leaveloper.home_presentation.home.HomeViewModel
 import com.leaveloper.habitsappcourse.navigation.NavigationRoute
 import com.leaveloper.habitsappcourse.ui.theme.HabitsAppCourseTheme
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -57,8 +57,8 @@ class CreateHabitE2E {
     val notificationPermission = GrantPermissionRule.grant(Manifest.permission.POST_NOTIFICATIONS)
 
     private lateinit var homeRepository: FakeHomeRepository
-    private lateinit var homeViewModel: HomeViewModel
-    private lateinit var detailViewModel: DetailViewModel
+    private lateinit var homeViewModel: com.leaveloper.home_presentation.home.HomeViewModel
+    private lateinit var detailViewModel: com.leaveloper.home_presentation.detail.DetailViewModel
     private lateinit var navController: NavHostController
 
     @Before
@@ -69,18 +69,31 @@ class CreateHabitE2E {
             .build()
         WorkManagerTestInitHelper.initializeTestWorkManager(context, config)
         homeRepository = FakeHomeRepository()
-        val homeUseCases = HomeUseCases(
-            completeHabitUseCase = CompleteHabitUseCase(homeRepository),
-            getAllHabitsForDateUseCase = GetAllHabitsForDateUseCase(homeRepository),
-            syncHabitUseCase = SyncHabitUseCase(homeRepository)
+        val homeUseCases = com.leaveloper.home_domain.home.usecase.HomeUseCases(
+            completeHabitUseCase = com.leaveloper.home_domain.home.usecase.CompleteHabitUseCase(
+                homeRepository
+            ),
+            getAllHabitsForDateUseCase = com.leaveloper.home_domain.home.usecase.GetAllHabitsForDateUseCase(
+                homeRepository
+            ),
+            syncHabitUseCase = com.leaveloper.home_domain.home.usecase.SyncHabitUseCase(
+                homeRepository
+            )
         )
-        homeViewModel = HomeViewModel(homeUseCases)
+        homeViewModel = com.leaveloper.home_presentation.home.HomeViewModel(homeUseCases)
 
-        val detailUseCase = DetailUseCases(
-            getHabitByIdUseCase = GetHabitByIdUseCase(homeRepository),
-            insertHabitUseCase = InsertHabitUseCase(homeRepository)
+        val detailUseCase = com.leaveloper.home_domain.detail.usecase.DetailUseCases(
+            getHabitByIdUseCase = com.leaveloper.home_domain.detail.usecase.GetHabitByIdUseCase(
+                homeRepository
+            ),
+            insertHabitUseCase = com.leaveloper.home_domain.detail.usecase.InsertHabitUseCase(
+                homeRepository
+            )
         )
-        detailViewModel = DetailViewModel(SavedStateHandle(), detailUseCase)
+        detailViewModel = com.leaveloper.home_presentation.detail.DetailViewModel(
+            SavedStateHandle(),
+            detailUseCase
+        )
 
         composeRule.activity.setContent {
             navController = rememberNavController()
@@ -89,7 +102,7 @@ class CreateHabitE2E {
                 startDestination = NavigationRoute.Home.route
             ) {
                 composable(NavigationRoute.Home.route) {
-                    HomeScreen(
+                    com.leaveloper.home_presentation.home.HomeScreen(
                         onNewHabit = {
                             navController.navigate(NavigationRoute.Detail.route)
                         },
@@ -113,7 +126,7 @@ class CreateHabitE2E {
                         }
                     )
                 ) {
-                    DetailScreen(
+                    com.leaveloper.home_presentation.detail.DetailScreen(
                         onBack = {
                             navController.popBackStack()
                         },
