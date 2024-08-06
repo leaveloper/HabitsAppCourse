@@ -1,4 +1,4 @@
-package com.leaveloper.core_data.di
+package com.leaveloper.authentication_presentation.di
 
 import dagger.Module
 import dagger.Provides

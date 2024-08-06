@@ -41,7 +41,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:core_data"))
     implementation(project(":core:core_presentation"))
     implementation(project(":authentication:authentication_domain"))
 
